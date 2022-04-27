@@ -84,10 +84,15 @@ WSGI_APPLICATION = 'WattTime.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'db.sqlite3',
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+		'NAME':os.getenv('POSTGRES_DBNAME'),
+		'USER':os.getenv('POSTGRES_DBUSER'),
+		'PASSWORD':os.getenv('POSTGRES_DBPASS'),
+		'HOST':os.getenv('POSTGRES_DBHOST'),
+		'PORT':os.getenv('POSTGRES_DBPORT'),
 	}
 }
 

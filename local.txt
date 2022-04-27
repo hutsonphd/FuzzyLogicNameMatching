@@ -1,0 +1,13 @@
+export POSTGRES_DBNAME=wattTime
+export POSTGRES_DBUSER=hutson
+export POSTGRES_DBPASS=plpl
+export POSTGRES_DBHOST=10.0.0.38
+export POSTGRES_DBPORT=5432
+export DJANGO_SETTINGS_MODULE=WattTime.settings
+
+
+export POSTGRES_DBNAME=wattTime
+export POSTGRES_DBUSER=postgres
+export POSTGRES_DBPASS=z4fxVth4iDsmgAZWeF5b7kP94NHPvHEQiP3BixLJzGUFayz4BUFt5pZP
+export POSTGRES_DBHOST=aureum-db-1-free.cri4fuc1bwyq.us-east-2.rds.amazonaws.com
+export POSTGRES_DBPORT=5432

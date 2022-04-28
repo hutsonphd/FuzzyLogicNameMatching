@@ -42,8 +42,7 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 
 	'bootstrap5',
-	'crispy_forms',
-	'crispy_bootstrap5',
+	'rest_framework',
 
 	'app',
 
@@ -66,9 +65,8 @@ TEMPLATES = [
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
 		'DIRS': [
 			os.path.join(BASE_DIR, 'templates')
-
 		],
-		# 'APP_DIRS': True,
+		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
 				'django.template.context_processors.debug',
@@ -88,13 +86,9 @@ WSGI_APPLICATION = 'WattTime.wsgi.application'
 
 
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-		'NAME':os.getenv('POSTGRES_DBNAME'),
-		'USER':os.getenv('POSTGRES_DBUSER'),
-		'PASSWORD':os.getenv('POSTGRES_DBPASS'),
-		'HOST':os.getenv('POSTGRES_DBHOST'),
-		'PORT':os.getenv('POSTGRES_DBPORT'),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
 	}
 }
 
@@ -127,23 +121,24 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-# STATIC_ROOT = os.path.join(BASE_DIR,"static")
-# STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles") #for heroku
 STATIC_ROOT= '/static/' #for nginx
 STATIC_URL = '/static/'
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media')
-MEDIA_URL = '/media/'
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

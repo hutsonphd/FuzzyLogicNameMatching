@@ -5,4 +5,5 @@ app_name = "app"
 
 urlpatterns = [
 	path('', views.index, name='home' ),
+	path('upload_entso',views.upload_entso, name='upload_entso')
 ]

@@ -166,3 +166,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 *.pyc
+WattTime/app/__pycache__/views.cpython-310.pyc
+WattTime/app/__pycache__/urls.cpython-310.pyc
+WattTime/WattTime/__pycache__/settings.cpython-310.pyc
+.gitignore

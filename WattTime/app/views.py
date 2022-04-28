@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.contrib import messages
 
 from django.shortcuts import render, redirect
@@ -6,18 +5,20 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login, logout
 
 
-# Create your views here.
 
+
+#homepage view
 @login_required(login_url='Login')
 def index(request):
-    context = {}
-    return render(request, 'index.html', context)
+	context = {}
+	return render(request, 'index.html', context)
 
 @login_required(login_url='Login')
-def api(request):
-    response = None
-    return JsonResponse(response, safe=False)
+def upload_entso(request):
+	context = {}	
+	return render(request, 'upload_entso.html', context)
 
+#app authentication functions
 def loginPage(request):
 	nxt = request.GET.get('next')
 	if not nxt:
@@ -44,3 +45,6 @@ def loginPage(request):
 def logoutUser(request):
 	logout(request)
 	return redirect('Login')
+
+
+

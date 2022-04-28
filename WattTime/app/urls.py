@@ -5,5 +5,7 @@ app_name = "app"
 
 urlpatterns = [
 	path('', views.index, name='home' ),
-	path('upload_entso',views.upload_entso, name='upload_entso')
+	path('upload',views.upload, name='upload'),
+	path('test',views.test, name='test'),
+	path('reset', views.reset, name='reset')
 ]

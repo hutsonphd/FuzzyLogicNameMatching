@@ -4,4 +4,4 @@ from .models import *
 
 admin.site.register(Gppd)
 admin.site.register(Entso)
-admin.site.register(Platts)
+admin.site.register(Platt)

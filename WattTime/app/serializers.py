@@ -14,5 +14,5 @@ class GppdSerializer(serializers.ModelSerializer):
 
 class PlattsSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Platts
+		model = Platt
 		fields = "__all__"

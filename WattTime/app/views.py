@@ -1,22 +1,41 @@
 from django.contrib import messages
+from django.http import JsonResponse
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login, logout
 
-
+import app.name_matches as name_matches
+from .models import *
 
 
 #homepage view
 @login_required(login_url='Login')
 def index(request):
-	context = {}
+	mappings = Mapping.objects.all()
+	context = {
+		"mappings":mappings,
+	}
 	return render(request, 'index.html', context)
 
 @login_required(login_url='Login')
-def upload_entso(request):
+def reset(request):
+	name_matches.reset()
+	messages.success(request, 'You have reset the Mappings and Entso Data')
+	return redirect('app:home')
+
+#file upload page
+@login_required(login_url='Login')
+def upload(request):
 	context = {}	
-	return render(request, 'upload_entso.html', context)
+	return render(request, 'upload.html', context)
+
+#test page
+@login_required(login_url='Login')
+def test(request):
+	result = {}
+	result['results'] = name_matches.mapPlatts()
+	return JsonResponse(result, safe=False)
 
 #app authentication functions
 def loginPage(request):

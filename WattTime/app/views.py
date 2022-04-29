@@ -34,8 +34,33 @@ def upload(request):
 @login_required(login_url='Login')
 def test(request):
 	result = {}
-	result['results'] = name_matches.mapPlatts()
+
+	result['results'] = name_matches.cleanUp()
 	return JsonResponse(result, safe=False)
+
+@login_required(login_url='Login')
+def mapping(request):
+	return render(request, 'mapEntso.html')
+
+@login_required(login_url='Login')
+def mapEntso(request):
+	name_matches.mapEntso()
+
+	return render(request, 'mapGppd.html')
+
+@login_required(login_url='Login')
+def mapGppd(request):
+	name_matches.mapGppd()
+
+	return render(request, 'mapPlatts.html')
+
+@login_required(login_url='Login')
+def mapPlatts(request):
+	name_matches.mapPlatts()
+	name_matches.cleanUp()
+	messages.success(request, "Successfully mapped the Entso data")
+	return redirect('app:home')
+
 
 #app authentication functions
 def loginPage(request):

@@ -24,24 +24,28 @@ def mapGppd():
 	entso_ids = []
 	count = 0
 	
-	#create list from all Gppd Names that exist
-	gppd_plant_names = Gppd.objects.filter(plant_name__isnull=False)
-	names = []
-	for i in gppd_plant_names:
-		names.append(i.plant_name)
+
 
 	#get all Entso objects with a plant name
 	entso = Entso.objects.filter(plant_name__isnull=False)
 	for obj in entso:
 		name = obj.plant_name
-		match = process.extractOne(name, names) #fuzzy match Entso against possible Gppd matches
-		if match[1] >= 80: #hard set to greater than or equal to 80% likely match
-			matches.append(match[0])
-			entso_id = (obj.entso_unit_id, match[0])
-			entso_ids.append(entso_id)
-			count = count + 1
-		else:
-			matches.append(None)
+		country = obj.country
+		country = country.split()[0]
+		#create list from all Gppd Names that exist
+		gppd_plant_names = Gppd.objects.filter(plant_name__isnull=False, country_long__iexact = country)
+		names = []
+		if gppd_plant_names:
+			for i in gppd_plant_names:
+				names.append(i.plant_name)
+			match = process.extractOne(name, names) #fuzzy match Entso against possible Gppd matches
+			if match[1] >= 80: #hard set to greater than or equal to 80% likely match
+				matches.append(match[0])
+				entso_id = (obj.entso_unit_id, match[0])
+				entso_ids.append(entso_id)
+				count = count + 1
+			else:
+				matches.append(None)
 
 	#for resulting matches, map entso_unit_id to gppd_plant_id
 	for res in entso_ids:
@@ -64,24 +68,26 @@ def mapPlatts():
 	entso_ids = []
 	count = 0
 	
-	#create list from all Platt Names that exist
-	platt_unit_names = Platt.objects.filter(unit_name__isnull=False)
-	names = []
-	for i in platt_unit_names:
-		names.append(i.unit_name)
-
 	#get all Entso objects with a plant name
 	entso = Entso.objects.filter(unit_name__isnull=False)
 	for obj in entso:
 		name = obj.unit_name
-		match = process.extractOne(name, names) #fuzzy match Entso against possible Platt matches
-		if match[1] >= 80: #hard set to greater than or equal to 80% likely match
-			matches.append(match[0])
-			entso_id = (obj.entso_unit_id, match[0])
-			entso_ids.append(entso_id)
-			count = count + 1
-		else:
-			matches.append(None)
+		country = obj.country
+		country = country.split()[0]
+		platt_unit_names = Platt.objects.filter(unit_name__isnull=False, country__iexact=country)
+		names = []
+		if platt_unit_names:
+			for i in platt_unit_names:
+				names.append(i.unit_name)
+
+			match = process.extractOne(name, names) #fuzzy match Entso against possible Platt matches
+			if match[1] >= 80: #hard set to greater than or equal to 80% likely match
+				matches.append(match[0])
+				entso_id = (obj.entso_unit_id, match[0])
+				entso_ids.append(entso_id)
+				count = count + 1
+			else:
+				matches.append(None)												
 
 	#for resulting matches, map entso_unit_id to gppd_plant_id
 	for res in entso_ids:
@@ -95,6 +101,32 @@ def mapPlatts():
 				check.save()
 
 	return results
+
+#finding matches for missing remainder
+def cleanUp():
+	missed_gppd = Mapping.objects.filter(gppd_plant_id__isnull= True)
+	for obj in missed_gppd:
+		entso = Entso.objects.filter(entso_unit_id = obj.entso_unit_id).first()
+		uf = entso.unit_fuel
+		country = entso.country
+		country = country.split()[0]
+		gppd = Gppd.objects.filter(plant_primary_fuel__iexact = uf, country_long__contains = country).exclude(gppd_plant_id = '')
+		if gppd:
+			obj.gppd_plant_id = gppd.first().gppd_plant_id
+			obj.save()
+
+	missed_platts = Mapping.objects.filter(platts_unit_id__isnull= True)
+	for obj in missed_platts:
+		entso = Entso.objects.filter(entso_unit_id = obj.entso_unit_id).first()
+		uf = entso.unit_fuel
+		country = entso.country
+		country = country.split()[0].upper()
+		platts = Platt.objects.filter(unit_fuel__iexact = uf, country__contains = country).exclude(platts_unit_id='')
+		if platts:
+			obj.platts_unit_id = platts.first().platts_unit_id
+			obj.save()
+	
+	return
 
 #quick reset
 def reset():

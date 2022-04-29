@@ -63,7 +63,7 @@ class EntsoViewSet(viewsets.ModelViewSet):
 			)
 
 		Entso.objects.bulk_create(entso_list)
-
+		fs.delete("_tmp.csv")
 		return redirect('app:mapping')
 
 

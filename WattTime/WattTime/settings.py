@@ -17,7 +17,7 @@ with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
 DEBUG = True
 
 ALLOWED_HOSTS = ['wt.biginfo.co', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['wt.biginfo.co','localhost']
+CSRF_TRUSTED_ORIGINS = ['https://wt.biginfo.co','http://localhost']
 CORS_ORIGIN_ALLOW_ALL = True
 
 #HTTPS settings

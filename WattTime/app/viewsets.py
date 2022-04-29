@@ -63,13 +63,8 @@ class EntsoViewSet(viewsets.ModelViewSet):
 			)
 
 		Entso.objects.bulk_create(entso_list)
-		name_matches.mapEntso()
-		name_matches.mapGppd()
-		name_matches.mapPlatts()
 
-		messages.success(request, 'Successfully uploaded Entso data')
-
-		return redirect('app:home')
+		return redirect('app:mapping')
 
 
 class GppdViewSet(viewsets.ModelViewSet):

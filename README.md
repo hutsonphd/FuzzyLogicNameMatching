@@ -5,7 +5,6 @@
 - Download ZIP
 
 ```bash
-cd /WattTimeTest/WattTime
 docker-compose build && docker-compose up -d
 ```
 
@@ -14,7 +13,6 @@ docker-compose build && docker-compose up -d
 ### Alternative Start
 
 ```bash
-cd /FuzzyLogic/WattTime
 pip install -r requirements.txt
 python manage.py runserver
 ```

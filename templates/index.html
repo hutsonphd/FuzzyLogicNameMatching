@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Mappings {% endblock %}
+
+{% block content %}
+<div class="container">
+<button onclick="window.location.href='{% url 'app:upload'%}';" class="btn btn-primary">Upload your CSV Files</button>
+<button onclick="window.location.href='{% url 'app:reset'%}';" class="btn btn-primary">Reset Data</button>
+
+<div class="container">
+	<div class="row justify-content-center pt-1 pt-md-4">
+		<div class="col-11 col-lg-12">
+			<div class="card shadow">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-hover" id="mappings" cellspacing="0">
+							<thead>
+								<tr>
+									<th>entso_unit_id</th>
+                                    <th>gppd_plant_id</th>
+                                    <th>platts_unit_id</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for i in mappings %}
+								<tr>
+									<td>{{i.entso_unit_id}}</td>
+                                    <td>{{i.gppd_plant_id}}</td>
+                                    <td>{{i.platts_unit_id}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock content %}
+{% block pagelevel-js %}
+
+{% endblock %}

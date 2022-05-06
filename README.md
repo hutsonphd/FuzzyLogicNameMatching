@@ -14,7 +14,7 @@ docker-compose build && docker-compose up -d
 ### Alternative Start
 
 ```bash
-cd /WattTimeTest/WattTime
+cd /FuzzyLogic/WattTime
 pip install -r requirements.txt
 python manage.py runserver
 ```
